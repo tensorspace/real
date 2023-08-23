@@ -81,16 +81,20 @@ in real scenario, user's question may contain typo or other textual errors. Ther
  fuzzy search. 
 ### Address Extraction
 #### 3rd Party Library
-Libraries like Spacy or NLTK can help parse and identify named entities within text. While not foolproof, when 
+Libraries like `Spacy` or `NLTK` can help parse and identify named entities within text. When 
 trained on the right datasets, they can identify addresses or address components with a higher accuracy rate than 
 regex alone. Commercial platforms like Google's Cloud Natural Language API or Amazon Comprehend also offer entity 
-extraction, which can sometimes recognize address components. Libraries like usaddress (for US addresses) can 
+extraction, which can sometimes recognize address components. Libraries like `usaddress` (for US addresses) can 
 break down an address into its components, such as street number, street name, city, etc. This might not extract 
 addresses from sentences, but if you have a probable address string, it can help in breaking it down.
 #### Rule-based System 
 For certain domains, there might be specific cues or patterns (e.g., "located at", "address is", etc.) that often 
 precede or follow an address. A rule-based system can use these cues in conjunction with other methods to extract 
 addresses.
+#### Customed Model
+If we have cumulated a substantial amount of data, we could consider training our own model to 
+recognize and extract addresses from text. Deep learning architectures, especially those based on 
+transformer models like BERT, have been successful in named entity recognition tasks.
 ### Database Query
 #### Database Built-in Fuzzy Search
 Many databases have built-in support for full-text search and fuzzy matching:
