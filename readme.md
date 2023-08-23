@@ -70,7 +70,7 @@ Use caching solutions like Redis or Memcached to cache frequent database lookups
 This application involves calling ChatGPT's API, which can be time-consuming and error-prone. It is necessary to 
 use message queue to decouple the main app and api processing. Message queue like RabbitMQ and distributed task 
 queue like Celery can be feasible solution. In high-concurrency scenarios, we can spawn multiple Celery workers 
-across different machines to increase throughput. It also lets your main application remain responsive, even if 
+across different machines to increase throughput. It also lets the main application remain responsive, even if 
 the external API is slow or rate-limited.
 
 ## Fuzzy Search

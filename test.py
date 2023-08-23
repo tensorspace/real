@@ -3,6 +3,7 @@ import openai
 import re
 import sqlite3
 
+import requests.exceptions
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
@@ -39,9 +40,15 @@ def extract_address(text):
 
 @app.route('/ask', methods=['POST'])
 def ask():
-    question = json.loads(request.data).get("question")
-    address = extract_address(question)
+    try:
+        question = json.loads(request.data).get("question")
+    except:
+        return jsonify({"error": "Invalid Request"}), 400
 
+    if not question:
+        return jsonify({"error": "Question not in the request"}), 400
+
+    address = extract_address(question)
     if not address:
         return jsonify({"error": "Address not detected in the request"}), 400
 
