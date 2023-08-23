@@ -98,11 +98,11 @@ transformer models like BERT, have been successful in named entity recognition t
 ### Database Query
 #### Database Built-in Fuzzy Search
 Many databases have built-in support for full-text search and fuzzy matching:
-* PostgreSQL: It has the pg_trgm module which supports trigram-based search. Once you enable this module, we can use 
-functions like similarity and operators like % to perform fuzzy matches.
+* PostgreSQL: It has the `pg_trgm` module which supports trigram-based search. Once you enable this module, we can use 
+functions like similarity and operators like `%` to perform fuzzy matches.
 * SQLite: The FTS (Full Text Search) extension in SQLite allows for full-text searches, which can approximate fuzzy
 searching.
-* MySQL: MySQL's LIKE and ILIKE can be used, but for more sophisticated fuzzy search, consider integrating with an
+* MySQL: MySQL's `LIKE` and `ILIKE` can be used, but for more sophisticated fuzzy search, consider integrating with an
 external service or library.
 #### ElasticSearch
 Elasticsearch is a distributed search engine that excels at full-text search. We can set up an Elasticsearch index
