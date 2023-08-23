@@ -30,7 +30,7 @@ each question..
 
 def extract_address(text):
     # Extract address from the question
-    pattern = r"\b[0-9]+\s([A-Z][a-zA-Z]]+)+(\s[A-Z][a-zA-Z]]+)*\b"
+    pattern = r"\b[0-9]+\s([A-Z][A-Za-z]+)+(\s[A-Z][A-Za-z]+)*\b"
     match = re.search(pattern, text)
     if match:
         return match.group(0)
