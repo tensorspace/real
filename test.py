@@ -5,7 +5,7 @@ import sqlite3
 import openai
 from flask import Flask, request, jsonify
 
-from create_db import DATABASE_NAME, TABLE_NAME, ADDRESS_COL, DESCRIPTION_COL
+from utils import DATABASE_NAME, TABLE_NAME, ADDRESS_COL, DESCRIPTION_COL
 
 app = Flask(__name__)
 
@@ -18,18 +18,18 @@ user questions based on the information provided by the user above
 each question..
 """
 
-    res = openai.ChatCompletion.create(
-        model="gpt-4",
-        messages=[
-            {"role": "system", "content": primer},
-            {"role": "user", "content": prompt}
-        ],
-        max_size=800
-    )
-    print(res)
-    response = res['choices'][0]['message']['content']
-    # except:
-    #    return None
+    try:
+        res = openai.ChatCompletion.create(
+            model="gpt-4",
+            messages=[
+                {"role": "system", "content": primer},
+                {"role": "user", "content": prompt}
+            ],
+            max_size=800
+        )
+        response = res['choices'][0]['message']['content']
+    except:
+        return None
     return response
 
 
