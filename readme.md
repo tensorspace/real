@@ -35,9 +35,11 @@ The Flask application then parse the request body and extract the user's questio
 from the question by regex pattern `[0-9]+\s([A-Z][a-zA-Z]]+)+(\s[A-Z][a-zA-Z]]+)*` i.e. an expression starting with
 street number and street name starting with capital letters. The address is then queried in sqlite database and 
 get the description for the address. Then we compose the prompt for OpenAI by combining the description of the
-property and the user's question. Response from OpenAI api will be parsed and looks like:
+property and the user's question. Response from OpenAI api will be return and looks like:
 ````
-The house at 123 Main Street has 3 bedrooms.
+{
+"response": "The house at 123 Main Street has 3 bedrooms."
+}
 ````
 
 # Further Design
