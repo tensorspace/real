@@ -7,9 +7,8 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-
-# OpenAI API call
 def openai_query(prompt):
+    # OpenAI API call
     openai.api_key = "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"
     primer = f"""You are Q&A bot. A highly intelligent system that answers
 user questions based on the information provided by the user above
@@ -29,6 +28,7 @@ each question..
 
 
 def extract_address(text):
+    # Extract address from the question
     pattern = r"\b[0-9]+\s([A-Z][a-zA-Z]]+)+(\s[A-Z][a-zA-Z]]+)*\b"
     match = re.search(pattern, text)
     if match:
@@ -45,6 +45,7 @@ def ask():
     if not address:
         return jsonify({"error": "Address not detected in the request"}), 400
 
+    # Fetch description from the database
     connection = sqlite3.connect('test.db')
     cursor = connection.cursor()
     cursor.execute("SELECT description FROM properties WHERE address=?", (address,))
