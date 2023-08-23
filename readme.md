@@ -29,6 +29,8 @@ The Flask app will take the POST operation from Postman or browser. The request 
 "question": "How many rooms does the house at 123 Main Street have?"
 }
 ````
+The screenshot of Postman:
+![postman](/postman.png)
 The Flask application then parse the request body and extract the user's question. Then, the address is extracted 
 from the question by regex pattern `[0-9]+\s([A-Z][a-zA-Z]]+)+(\s[A-Z][a-zA-Z]]+)*` i.e. an expression starting with
 street number and street name starting with capital letters. The address is then queried in sqlite database and 
