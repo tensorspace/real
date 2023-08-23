@@ -20,6 +20,7 @@ the database contains following record:
 | address | description |
 |---------|-------------|
 |123 Main Street|A 3-bedroom house, the price is 568,000 dollars|
+
 Then we launch the Flask app by executing script `test.py`.
 
 The Flask app will take the POST operation from Postman or browser. The request body take the form:
