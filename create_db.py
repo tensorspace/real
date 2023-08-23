@@ -5,8 +5,8 @@ conn = sqlite3.connect('test.db')
 c = conn.cursor()
 c.execute('''CREATE TABLE IF NOT EXISTS properties
        (
-       address           TEXT    NOT NULL,
-       description       TEXT    NOT NULL
+       address           TEXT    PRIMARY KEY ,
+       description       TEXT
        );''')
 conn.commit()
 c.execute("INSERT INTO properties (address, description) \
