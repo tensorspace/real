@@ -61,8 +61,8 @@ def ask():
     try:
         connection = sqlite3.connect(DATABASE_NAME)
         cursor = connection.cursor()
-        sql_query = f"SELECT {DESCRIPTION_COL} FROM {TABLE_NAME} WHERE {ADDRESS_COL}=\"{address}\""
-        cursor.execute(sql_query)
+        sql_query = f"SELECT {DESCRIPTION_COL} FROM {TABLE_NAME} WHERE {ADDRESS_COL}=?"
+        cursor.execute(sql_query, (address, ))
         result = cursor.fetchone()
         connection.close()
     except:
