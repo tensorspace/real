@@ -32,7 +32,7 @@ The Flask app will take the POST operation from Postman or browser. The request 
 The screenshot of Postman:
 ![postman](/postman.png)
 The Flask application then parse the request body and extract the user's question. Then, the address is extracted 
-from the question by regex pattern `[0-9]+\s([A-Z][a-zA-Z]]+)+(\s[A-Z][a-zA-Z]]+)*` i.e. an expression starting with
+from the question by regex pattern `\b[0-9]+\s([A-Z][A-Za-z]+)+(\s[A-Z][A-Za-z]+)*\b` i.e. an expression starting with
 street number and street name starting with capital letters. This is in compliance with most address format.
 The address is then queried in SQLite database and 
 get the description for the address. Then we compose the prompt for OpenAI by combining the description of the
