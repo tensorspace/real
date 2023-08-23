@@ -7,6 +7,10 @@ import requests.exceptions
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
+DATABASE_NAME = 'test.db'
+TABLE_NAME = 'properties'
+ADDRESS_COL = 'address'
+DESCRIPTION_COL = 'description'
 
 def openai_query(prompt):
     # OpenAI API call
@@ -53,11 +57,14 @@ def ask():
         return jsonify({"error": "Address not detected in the request"}), 400
 
     # Fetch description from the database
-    connection = sqlite3.connect('test.db')
-    cursor = connection.cursor()
-    cursor.execute("SELECT description FROM properties WHERE address=?", (address,))
-    result = cursor.fetchone()
-    connection.close()
+    try:
+        connection = sqlite3.connect('test.db')
+        cursor = connection.cursor()
+        cursor.execute("SELECT description FROM properties WHERE address=?", (address,))
+        result = cursor.fetchone()
+        connection.close()
+    except:
+        return jsonify({"error": "Database access failure"}), 400
 
     if not result:
         return jsonify({"error": "Address not found in database"}), 400
