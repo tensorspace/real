@@ -1,36 +1,35 @@
 import json
-import openai
 import re
 import sqlite3
 
+import openai
 from flask import Flask, request, jsonify
 
+from create_db import DATABASE_NAME, TABLE_NAME, ADDRESS_COL, DESCRIPTION_COL
+
 app = Flask(__name__)
-DATABASE_NAME = 'test.db'
-TABLE_NAME = 'properties'
-ADDRESS_COL = 'address'
-DESCRIPTION_COL = 'description'
 
 
 def openai_query(prompt):
     # OpenAI API call
-    openai.api_key = "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"
+    openai.api_key = "OpenAI Key"
     primer = f"""You are Q&A bot. A highly intelligent system that answers
 user questions based on the information provided by the user above
 each question..
 """
-    try:
-        res = openai.ChatCompletion.create(
-            model="gpt-4",
-            messages=[
-                {"role": "system", "content": primer},
-                {"role": "user", "content": prompt}
-            ],
-            max_size=800
-        )
-        response = res['choices'][0]['message']['content']
-    except:
-        return None
+
+    res = openai.ChatCompletion.create(
+        model="gpt-4",
+        messages=[
+            {"role": "system", "content": primer},
+            {"role": "user", "content": prompt}
+        ],
+        max_size=800
+    )
+    print(res)
+    response = res['choices'][0]['message']['content']
+    # except:
+    #    return None
     return response
 
 
