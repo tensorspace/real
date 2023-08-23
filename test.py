@@ -18,16 +18,18 @@ def openai_query(prompt):
 user questions based on the information provided by the user above
 each question..
 """
-
-    res = openai.ChatCompletion.create(
-        model="gpt-4",
-        messages=[
-            {"role": "system", "content": primer},
-            {"role": "user", "content": prompt}
-        ],
-        max_size=800
-    )
-    response = res['choices'][0]['message']['content']
+    try:
+        res = openai.ChatCompletion.create(
+            model="gpt-4",
+            messages=[
+                {"role": "system", "content": primer},
+                {"role": "user", "content": prompt}
+            ],
+            max_size=800
+        )
+        response = res['choices'][0]['message']['content']
+    except:
+        return None
     return response
 
 
@@ -59,7 +61,7 @@ def ask():
     try:
         connection = sqlite3.connect(DATABASE_NAME)
         cursor = connection.cursor()
-        sql_query = "SELECT {} FROM {} WHERE {}=\"{}\"".format(DESCRIPTION_COL, TABLE_NAME, ADDRESS_COL, address)
+        sql_query = f"SELECT {DESCRIPTION_COL} FROM {TABLE_NAME} WHERE {ADDRESS_COL}=\"{address}\""
         cursor.execute(sql_query)
         result = cursor.fetchone()
         connection.close()
@@ -75,6 +77,8 @@ def ask():
 
     # OpenAI API call
     response = openai_query(prompt)
+    if not response:
+        return jsonify({"error": "OpenAI not available"}), 400
 
     return jsonify({"response": response})
 
