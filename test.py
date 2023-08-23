@@ -11,6 +11,7 @@ TABLE_NAME = 'properties'
 ADDRESS_COL = 'address'
 DESCRIPTION_COL = 'description'
 
+
 def openai_query(prompt):
     # OpenAI API call
     openai.api_key = "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"
@@ -72,8 +73,9 @@ def ask():
         return jsonify({"error": "Address not found in database"}), 400
 
     description = result[0]
-    prompt = (f"The description of the house located at {address} is \"{description}\". Use the description to answer the "
-              f"question: {question}")
+    prompt = (
+        f"The description of the house located at {address} is \"{description}\". Use the description to answer the "
+        f"question: {question}")
 
     # OpenAI API call
     response = openai_query(prompt)
