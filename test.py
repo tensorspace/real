@@ -8,13 +8,12 @@ from flask import Flask, request, jsonify
 app = Flask(__name__)
 
 
-# Mock function to simulate OpenAI API call
+# OpenAI API call
 def openai_query(prompt):
     openai.api_key = "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"
     primer = f"""You are Q&A bot. A highly intelligent system that answers
 user questions based on the information provided by the user above
-each question. If the information can not be found in the information
-provided by the user you truthfully say "I don't know".
+each question..
 """
 
     res = openai.ChatCompletion.create(
@@ -56,7 +55,7 @@ def ask():
         return jsonify({"error": "Address not found in database"}), 400
 
     description = result[0]
-    prompt = (f"The description of the house located at {address} is \"{description}\". Use the information to answer the "
+    prompt = (f"The description of the house located at {address} is \"{description}\". Use the description to answer the "
               f"question: {question}")
 
     # OpenAI API call
