@@ -3,7 +3,6 @@ import openai
 import re
 import sqlite3
 
-import requests.exceptions
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
@@ -58,9 +57,10 @@ def ask():
 
     # Fetch description from the database
     try:
-        connection = sqlite3.connect('test.db')
+        connection = sqlite3.connect(DATABASE_NAME)
         cursor = connection.cursor()
-        cursor.execute("SELECT description FROM properties WHERE address=?", (address,))
+        sql_query = "SELECT {} FROM {} WHERE {}=\"{}\"".format(DESCRIPTION_COL, TABLE_NAME, ADDRESS_COL, address)
+        cursor.execute(sql_query)
         result = cursor.fetchone()
         connection.close()
     except:
