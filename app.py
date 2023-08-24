@@ -1,9 +1,9 @@
 import json
+import logging
 import re
 import sqlite3
 
 import openai
-import logging
 from flask import Flask, request, jsonify
 
 import db_config
