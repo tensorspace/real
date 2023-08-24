@@ -20,6 +20,9 @@ the database contains following record:
 | address | description |
 |---------|-------------|
 |123 Main Street|A 3-bedroom house, the price is 568,000 dollars|
+|456 Broad Way|A 4-bedroom townhouse, the price is 1,568,000 dollars|
+|789 Newton Court|A 2-bedroom apartment, the price is 68,000 dollars|
+
 
 Then we launch the Flask app by executing script `app.py`.
 
