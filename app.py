@@ -11,6 +11,7 @@ import db_config
 app = Flask(__name__)
 logger = logging.getLogger(__name__)
 
+
 def openai_query(prompt):
     # OpenAI API call
     openai.api_key = "OpenAI Key"
@@ -65,8 +66,9 @@ def ask():
     try:
         with sqlite3.connect(db_config.DATABASE_NAME) as connection:
             cursor = connection.cursor()
-            sql_query = f"SELECT {db_config.DESCRIPTION_COL} FROM {db_config.TABLE_NAME} WHERE {db_config.ADDRESS_COL}=?"
-            cursor.execute(sql_query, (address, ))
+            sql_query = (
+                f"SELECT {db_config.DESCRIPTION_COL} FROM {db_config.TABLE_NAME} WHERE {db_config.ADDRESS_COL}=?")
+            cursor.execute(sql_query, (address,))
             result = cursor.fetchone()
             if result:
                 description = result[0]
