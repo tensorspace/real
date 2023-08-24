@@ -3,12 +3,13 @@ import re
 import sqlite3
 
 import openai
+import logging
 from flask import Flask, request, jsonify
 
-from utils import DATABASE_NAME, TABLE_NAME, ADDRESS_COL, DESCRIPTION_COL
+import db_config
 
 app = Flask(__name__)
-
+logger = logging.getLogger(__name__)
 
 def openai_query(prompt):
     # OpenAI API call
@@ -28,8 +29,10 @@ each question..
             max_size=800
         )
         response = res['choices'][0]['message']['content']
-    except:
+    except openai.error.OpenAIError as e:
+        logger.exception("Failed to query OpenAI: %s", e)
         return None
+
     return response
 
 
@@ -47,31 +50,33 @@ def extract_address(text):
 def ask():
     try:
         question = json.loads(request.data).get("question")
-    except:
-        return jsonify({"error": "Invalid Request"}), 400
-
-    if not question:
-        return jsonify({"error": "Question not in the request"}), 400
+        if not question:
+            raise ValueError("Question not in the request")
+    except (ValueError, json.JSONDecodeError) as e:
+        logger.exception("Failed to extract question: %s", e)
+        return jsonify({"error": str(e)}), 400
 
     address = extract_address(question)
     if not address:
         return jsonify({"error": "Address not detected in the request"}), 400
 
     # Fetch description from the database
+    description = None
     try:
-        connection = sqlite3.connect(DATABASE_NAME)
-        cursor = connection.cursor()
-        sql_query = f"SELECT {DESCRIPTION_COL} FROM {TABLE_NAME} WHERE {ADDRESS_COL}=?"
-        cursor.execute(sql_query, (address, ))
-        result = cursor.fetchone()
-        connection.close()
-    except:
+        with sqlite3.connect(db_config.DATABASE_NAME) as connection:
+            cursor = connection.cursor()
+            sql_query = f"SELECT {db_config.DESCRIPTION_COL} FROM {db_config.TABLE_NAME} WHERE {db_config.ADDRESS_COL}=?"
+            cursor.execute(sql_query, (address, ))
+            result = cursor.fetchone()
+            if result:
+                description = result[0]
+    except sqlite3.DatabaseError as e:
+        logger.exception("Database access failure: %s", e)
         return jsonify({"error": "Database access failure"}), 400
 
-    if not result:
+    if not description:
         return jsonify({"error": "Address not found in database"}), 400
 
-    description = result[0]
     prompt = (
         f"The description of the house located at {address} is \"{description}\". Use the description to answer the "
         f"question: {question}")

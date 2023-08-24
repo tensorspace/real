@@ -2,15 +2,15 @@
 
 import sqlite3
 
-from utils import DATABASE_NAME, TABLE_NAME, ADDRESS_COL, DESCRIPTION_COL
+import db_config
 
-conn = sqlite3.connect(DATABASE_NAME)
+conn = sqlite3.connect(db_config.DATABASE_NAME)
 c = conn.cursor()
 # Create the table
-sql_query = f'''CREATE TABLE IF NOT EXISTS {TABLE_NAME}
+sql_query = f'''CREATE TABLE IF NOT EXISTS {db_config.TABLE_NAME}
        (
-       {ADDRESS_COL}           TEXT    PRIMARY KEY ,
-       {DESCRIPTION_COL}       TEXT
+       {db_config.ADDRESS_COL}           TEXT    PRIMARY KEY ,
+       {db_config.DESCRIPTION_COL}       TEXT
        );'''
 c.execute(sql_query)
 conn.commit()
@@ -21,7 +21,7 @@ data = ['''\'123 Main Street', 'A 3-bedroom house, the price is 568,000 dollars\
 
 for row in data:
     try:
-        sql_query = f"INSERT INTO {TABLE_NAME} ({ADDRESS_COL}, {DESCRIPTION_COL} ) \
+        sql_query = f"INSERT INTO {db_config.TABLE_NAME} ({db_config.ADDRESS_COL}, {db_config.DESCRIPTION_COL} ) \
             VALUES ({row})"
         c.execute(sql_query)
         conn.commit()
