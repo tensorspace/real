@@ -45,6 +45,9 @@ property and the user's question. Response from OpenAI api will be return and lo
 "response": "The house at 123 Main Street has 3 bedrooms."
 }
 ````
+## LangChain Solution
+In stead of using Python package `sqlite3`, we can also use LangChain's API `SQLDatabaseChain` 
+for answering questions over a SQL database. Example can be found at [here](https://python.langchain.com/docs/integrations/tools/sqlite).
 
 # Further Design
 ## Design for Scalability
